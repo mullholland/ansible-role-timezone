@@ -1,0 +1,30 @@
+---
+- name: Include distribution specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
+    - '{{ ansible_distribution }}.yml'
+    - '{{ ansible_os_family }}.yml'
+    - '{{ ansible_system }}.yml'
+    - 'default.yml'
+
+- name: Install timezone packages
+  package:
+    name: "{{ timezone_package[ansible_os_family] }}"
+    update_cache: true
+    state: present
+
+- name: Set timezone
+  timezone:
+    name: "{{ timezone }}"
+  notify: restart timezone dependent services
+
+# Mainly for exotic compatibility on Debian/Ubuntu side
+- name: update /etc/timezone
+  template:
+    src: "etc/timezone.j2"
+    dest: "/etc/timezone"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify: restart timezone dependent services

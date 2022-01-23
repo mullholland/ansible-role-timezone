@@ -1,0 +1,16 @@
+---
+# Default timezone
+timezone: "Etc/UTC"
+
+timezone_dependent_services_map:
+  RedHat:
+    - "crond"
+    - "rsyslog"
+  Rocky:
+    - "crond"
+    - "rsyslog"
+  Debian:
+    - "cron"
+    - "rsyslog"
+
+timezone_dependent_services: "{{ timezone_dependent_services_map[ansible_distribution] | default(timezone_dependent_services_map[ansible_os_family] | default(timezone_dependent_services_map['default'] )) }}"

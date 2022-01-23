@@ -1,0 +1,25 @@
+---
+- name: Prepare
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    # dependend packages can be configured via `timezone_dependent_services`
+    - name: Install dependencies
+      ansible.builtin.package:
+        name:
+          - "cronie"  # For the cron script
+          - "rsyslog"  # For the cron script
+        state: present
+      when:
+        - ansible_distribution in [ "RedHat", "CentOS", "Amazon", "Rocky", "AlmaLinux", "Fedora" ]
+
+    - name: Install dependencies
+      ansible.builtin.package:
+        name:
+          - "cron"  # default timezone dependent services
+          - "rsyslog"  # default timezone dependent services
+        state: present
+      when:
+        - ansible_os_family == "Debian"

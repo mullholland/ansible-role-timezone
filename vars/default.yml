@@ -1,0 +1,5 @@
+---
+timezone_package:
+  Rocky: 'tzdata'
+  RedHat: 'tzdata'
+  Debian: 'tzdata'
