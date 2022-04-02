@@ -38,8 +38,6 @@ This example is taken from `molecule/default/converge.yml` and is tested on each
   hosts: all
   become: true
   gather_facts: true
-  # vars:
-  #   example_var: "value"
   roles:
     - role: "mullholland.timezone"
 ```
@@ -97,7 +95,7 @@ This role has been tested on these [container images](https://hub.docker.com/u/m
 
 The minimum version of Ansible required is 2.10, tests have been done to:
 
--   The last 2 versions.
+-   The previous versions.
 -   The current version.
 
 
