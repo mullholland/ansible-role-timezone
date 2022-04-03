@@ -53,11 +53,12 @@ The machine needs to be prepared in CI this is done using `molecule/default/prep
   tasks:
     # dependend packages can be configured via `timezone_dependent_services`
     - name: Install dependencies
-      ansible.builtin.package:
+      ansible.builtin.apt:
         name:
           - "cronie"  # For the cron script
           - "rsyslog"  # For the cron script
         state: present
+        update_cache: true
       when:
         - ansible_distribution in [ "RedHat", "CentOS", "Amazon", "Rocky", "AlmaLinux", "Fedora" ]
 
