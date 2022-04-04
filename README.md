@@ -55,18 +55,19 @@ The machine needs to be prepared in CI this is done using `molecule/default/prep
     - name: Install dependencies
       ansible.builtin.package:
         name:
-          - "cronie"  # For the cron script
-          - "rsyslog"  # For the cron script
+          - "cronie"  # default timezone dependent services
+          - "rsyslog"  # default timezone dependent services
         state: present
       when:
         - ansible_distribution in [ "RedHat", "CentOS", "Amazon", "Rocky", "AlmaLinux", "Fedora" ]
 
     - name: Install dependencies
-      ansible.builtin.package:
+      ansible.builtin.apt:
         name:
           - "cron"  # default timezone dependent services
           - "rsyslog"  # default timezone dependent services
         state: present
+        update_cache: true
       when:
         - ansible_os_family == "Debian"
 ```
@@ -97,6 +98,7 @@ The minimum version of Ansible required is 2.10, tests have been done to:
 
 -   The previous versions.
 -   The current version.
+-   The [devel](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-devel-from-github-with-pip) version.
 
 
 
