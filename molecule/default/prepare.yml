@@ -7,20 +7,20 @@
   tasks:
     # dependend packages can be configured via `timezone_dependent_services`
     - name: Install dependencies
-      ansible.builtin.apt:
+      ansible.builtin.package:
         name:
-          - "cronie"  # For the cron script
-          - "rsyslog"  # For the cron script
+          - "cronie"  # default timezone dependent services
+          - "rsyslog"  # default timezone dependent services
         state: present
-        update_cache: true
       when:
         - ansible_distribution in [ "RedHat", "CentOS", "Amazon", "Rocky", "AlmaLinux", "Fedora" ]
 
     - name: Install dependencies
-      ansible.builtin.package:
+      ansible.builtin.apt:
         name:
           - "cron"  # default timezone dependent services
           - "rsyslog"  # default timezone dependent services
         state: present
+        update_cache: true
       when:
         - ansible_os_family == "Debian"
