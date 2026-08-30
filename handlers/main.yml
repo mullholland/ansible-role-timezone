@@ -1,5 +1,5 @@
 ---
-- name: restart timezone dependent services
+- name: Restart timezone dependent services
   ansible.builtin.service:
     name: "{{ item }}"
     state: restarted
