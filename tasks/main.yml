@@ -15,16 +15,16 @@
     state: present
 
 - name: Set timezone
-  ansible.builtin.timezone:
+  community.general.timezone:
     name: "{{ timezone }}"
-  notify: restart timezone dependent services
+  notify: Restart timezone dependent services
 
 # Mainly for exotic compatibility on Debian/Ubuntu side
-- name: update /etc/timezone
+- name: Update /etc/timezone
   ansible.builtin.template:
     src: "etc/timezone.j2"
     dest: "/etc/timezone"
     owner: "root"
     group: "root"
     mode: "0644"
-  notify: restart timezone dependent services
+  notify: Restart timezone dependent services

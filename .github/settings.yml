@@ -5,4 +5,4 @@
 repository:
   description: Configure timezine settings
   homepage: https://mullholland.net
-  topics: cloud, database, development, monitoring, networking, system, ansible, molecule, tox, playbook
+  topics: cloud, database, development, monitoring, networking, system, ansible, molecule, playbook
