@@ -13,4 +13,12 @@ timezone_dependent_services_map:
     - "cron"
     - "rsyslog"
 
-timezone_dependent_services: "{{ timezone_dependent_services_map[ansible_distribution] | default(timezone_dependent_services_map[ansible_os_family] | default(timezone_dependent_services_map['default'])) }}"
+__timezone_dependent_services_raw: "{{ timezone_dependent_services_map[ansible_distribution] | default(timezone_dependent_services_map[ansible_os_family] | default(timezone_dependent_services_map['default'])) }}"
+
+# rsyslog isn't installed by default on EL10+ (RHEL is moving to
+# journald), so drop it from the restart list there instead of failing
+# on a service that was never there to begin with.
+timezone_dependent_services: >-
+  {{ __timezone_dependent_services_raw | reject('equalto', 'rsyslog') | list
+     if (ansible_os_family == 'RedHat' and ansible_distribution_major_version | int >= 10)
+     else __timezone_dependent_services_raw }}
